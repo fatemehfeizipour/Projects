@@ -1,0 +1,17 @@
+# Terraform working directory
+.terraform/
+
+# Terraform state files (contain infrastructure details)
+*.tfstate
+*.tfstate.*
+
+# AWS credentials
+.aws/
+credentials
+
+# Private keys
+*.pem
+*.key
+
+# Terraform variables with secrets
+terraform.tfvars
