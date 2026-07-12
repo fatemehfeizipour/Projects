@@ -72,7 +72,7 @@ This architecture satisfies the project requirements:
 
 \## 🗺️ Architecture Diagram
 
-![Next.js-Terraform.png] (./images/Next.js-Terraform.png)
+![Next.js-Terraform.png] (images/Next.js-Terraform.png)
 
 
 
