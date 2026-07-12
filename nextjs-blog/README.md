@@ -96,27 +96,19 @@ This architecture satisfies the project requirements:
 terraform-portfolio-project/
 
 ├── nextjs-blog/              # Next.js portfolio application
-
-│   ├── pages/                  # File-based routing
-
-│   ├── components/              # Reusable UI components
-
-│   ├── public/                    # Static assets (images, fonts, etc.)
-
-│   ├── next.config.js               # Configured for static export
-
-│   └── out/                          # Static build output (generated, deployed to S3)
+│   ├── pages/                # File-based routing
+│   ├── images/              
+│   ├── public/               # Static assets (images, fonts, etc.)
+│   ├── styles                #
+│   ├── .next                 #
+│   ├── node_modules          #
+│   └── out/                  # Static build output (generated, deployed to S3)
 
 ├── terraform-nextjs/         # Infrastructure as Code
-
-│   ├── main.tf                 # AWS provider block + backend (S3 + DynamoDB state)
-
-│   ├── s3.tf                    # S3 bucket resource + bucket policy (static website hosting)
-
-│   ├── cloudfront.tf             # CloudFront distribution
-
-│   └── outputs.tf                  # Bucket website endpoint + CloudFront URL
-
+│   ├── main.tf               # AWS provider block + backend (S3 + DynamoDB state)
+│   ├── s3.tf                 # S3 bucket resource + bucket policy (static website hosting)
+│   ├── cloudfront.tf         # CloudFront distribution
+│   └── outputs.tf            # Bucket website endpoint + CloudFront URL
 └── README.md
 
 ## 🚀 Deployment Steps
