@@ -2,6 +2,8 @@
 
 A cloud engineering project that deploys a static Next.js portfolio website to AWS using Infrastructure as Code (Terraform), with global content delivery via Amazon CloudFront.
 
+![Architecture Diagram](./public/images/localhost3000.png)
+
 ![Architecture Diagram](./public/images/Next.js-Terraform.png)
 
 ---
