@@ -142,7 +142,7 @@ aws cloudfront create-invalidation --distribution-id <DISTRIBUTION_ID> --paths "
 
 ## Demo Video
 
-📺 [Watch a walkthrough of the Next.js code structure and AWS architecture](your-loom-link-here)
+📺 (https://www.linkedin.com/posts/fatemeh-feyzipour_nextjs-webdevelopment-cloudengineering-ugcPost-7482786193932300288-WFgR/?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU)
 
 ## License
 
