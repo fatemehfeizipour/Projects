@@ -8,3 +8,8 @@ terraform {
     } 
 }
 
+# Team collaboration
+# Avoiding state loss
+# Locking do two people don't apply at once
+# Security
+# Recovery

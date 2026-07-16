@@ -1,5 +1,5 @@
 provider "aws" {
-    region = "ca-canada-1"
+    region = "ca-central-1"
 }
 
 # S3 Bucket
@@ -22,7 +22,7 @@ resource "aws_s3_bucket_public_access_block" "nextjs_bucket_public_access_block"
     bucket = aws_s3_bucket.nextjs_bucket.id
 
     block_public_acls = false
-    block_public_policy = false
+    block_public_policy = false 
     ignore_public_acls = false
     restrict_public_buckets = false 
 
@@ -68,7 +68,7 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
 resource "aws_cloudfront_distribution" "nextjs_distribution" {
 
     origin {
-        domain_name = aws_s3_bucket.nextjs_bucket.bucket-regional_domain_name,
+        domain_name = aws_s3_bucket.nextjs_bucket.bucket_regional_domain_name
         origin_id = "S3-nextjs-portfolio-bucket"
 
         s3_origin_config{
@@ -78,12 +78,12 @@ resource "aws_cloudfront_distribution" "nextjs_distribution" {
 
     enabled = true
     is_ipv6_enabled = true
-    comment = "Next.js potyfolio site"
+    comment = "Next.js portfolio site"
     default_root_object = "index.html"
 
 
     default_cache_behavior {
-        allowed_methods = ["GET" , "HEAD", "POTIONS"]
+        allowed_methods = ["GET" , "HEAD", "OPTIONS"]
         cached_methods = ["GET", "HEAD"]
         target_origin_id = "S3-nextjs-portfolio-bucket"
 
@@ -101,7 +101,7 @@ resource "aws_cloudfront_distribution" "nextjs_distribution" {
     }
 
     viewer_certificate {
-
+        cloudfront_default_certificate = true
     }
     restrictions {
         geo_restriction {
