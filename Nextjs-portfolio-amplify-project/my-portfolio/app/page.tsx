@@ -90,6 +90,13 @@ const experience: Experience[] = [
       "Designing and deploying AWS infrastructure with CloudFormation (VPCs, EC2, IAM, Auto Scaling, Load Balancers, NAT Gateways). Documenting hands-on projects with Git/GitHub, creating architecture diagrams, and leveraging generative AI to accelerate troubleshooting and optimize templates.",
   },
   {
+    role: "Community Support Worker",
+    company: "Community Centers, Vancouver",
+    period: "2026 — present",
+    description:
+      "Coordinated appointments, schedules, and daily routines while maintaining accurate client documentation, Assisted clients with administrative and personal tasks, including document preparation and errands, Built trusted, respectful relationships with clients and their families through consistent, attentive care, Communicated regularly with clients to understand and adapt to their evolving needs and preferences, Demonstrated strong attention to detail, empathy, and reliability in a client-facing support role.",
+  },
+  {
     role: "Immigration Assistant",
     company: "Immigration Firms, Vancouver",
     period: "2021 — 2025",
