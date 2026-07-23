@@ -48,8 +48,8 @@ const projects: Project[] = [
     title: "Static Website on S3 + CloudFront with Terraform",
     description:
       "Built and deployed a static website using Amazon S3 for storage and Amazon CloudFront for global content delivery,  exploring multilayer S3 security.",
-    stack: ["S3", "CloudFront", "DNS"],
-    link: "https://github.com/fatemehfeizipour/Projects/tree/main/terraform-portfolio-project/terraform-nextjs-blog",
+    stack: ["Terraform", "CloudFront", "S3", "multilayer S3 security"],
+    link: "https://github.com/fatemehfeizipour/Projects/blob/main/terraform-portfolio-project/terraform-nextjs-blog/README.md",
   },
   {
     title: "Cloud-Native Portfolio Site",
