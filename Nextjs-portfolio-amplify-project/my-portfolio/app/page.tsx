@@ -5,8 +5,8 @@ import { ArrowUpRight, Mail, MapPin } from "lucide-react"
 /* ---------------------------------- Data ---------------------------------- */
 
 const profile = {
-  name: "Fatemeh_Feyzipour",
-  role: "Aspiring Cloud Engineer in Vancouver",
+  name: "Fatemeh Feyzipour",
+  role: "Aspiring Cloud Engineer",
   location: "Vancouver, BC",
   tagline: "AWS Certified Cloud Practitioner building hands-on, secure cloud infrastructure.",
   intro:
