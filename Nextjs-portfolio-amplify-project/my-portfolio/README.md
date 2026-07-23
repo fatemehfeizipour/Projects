@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# my-portfolio
+
+Personal portfolio site built with Next.js, TypeScript, and Tailwind CSS. UI was scaffolded with Vercel's **v0** AI tool and iterated on by hand.
+
+This is the **application** repo/folder. Hosting and CI/CD are provisioned separately as code — see [`../portfolio-infrastructure`](../portfolio-infrastructure).
+
+## Tech Stack
+
+- Next.js (App Router, TypeScript)
+- Tailwind CSS
+- Icons: [lucide-react](https://lucide.dev)
+- UI generated with [v0](https://v0.dev)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Local dev server with hot reload |
+| `npm run build` | Production build — this is exactly what AWS Amplify runs in CI |
+| `npm run start` | Serve the production build locally |
 
-## Learn More
+Always confirm `npm run build` succeeds locally before pushing — Amplify's build step will fail the same way CI would.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+my-portfolio/
+├── src/
+│   └── app/
+│       ├── page.tsx        # homepage
+│       ├── layout.tsx      # root layout
+│       └── globals.css
+├── next.config.ts
+└── package.json
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+This app is deployed via **AWS Amplify Hosting**, connected to this repo's `main` branch. Every push to `main` triggers an automatic build and deploy — no manual steps required.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The Amplify App resource, build spec, and branch configuration are **not** defined here — they're provisioned as Infrastructure as Code in the sibling [`portfolio-infrastructure`](../portfolio-infrastructure) CDK project. Changing the build command, environment variables, or hosting config means editing that project and running `cdk deploy`, not editing anything in this folder.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Environment Notes
+
+- If `output: 'export'` is set in `next.config.ts`, this app builds as a fully static export (`out/`). If it's omitted, Amplify serves it with SSR support. Check the CDK stack's `baseDirectory` setting to see which mode the current deployment expects — the two need to agree.
