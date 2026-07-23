@@ -56,6 +56,8 @@ cdk deploy
 
 Full details, including secrets setup, build spec configuration, and troubleshooting notes, live in each subfolder's own README linked above.
 
+Loom video: https://lnkd.in/g-_ZAGv8
+
 ## Tech Stack
 
 Next.js · TypeScript · Tailwind CSS · AWS Amplify Hosting · AWS CDK · CloudFront · S3 · Route 53 (optional) · AWS Secrets Manager · GitHub (source + webhook trigger)
