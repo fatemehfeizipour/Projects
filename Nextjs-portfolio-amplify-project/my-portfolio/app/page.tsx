@@ -52,11 +52,11 @@ const projects: Project[] = [
     link: "https://github.com/fatemehfeizipour/Projects/tree/main/terraform-portfolio-project/terraform-nextjs-blog",
   },
   {
-    title: "Static Website on S3 + CloudFront with CloudFormation",
+    title: "Cloud-Native Portfolio Site",
     description:
-      "Built and deployed a static website using Amazon S3 for storage and Amazon CloudFront for global content delivery, exploring multilayer S3 security.",
-    stack: ["IAM", "Security", "AWS"],
-    link: "https://github.com/fatemehfeizipour/Projects/tree/main/cloudformation-projects",
+      "Built and deployed this portfolio itself as a cloud project — a Next.js site hosted on AWS Amplify with a GitHub CI/CD pipeline, provisioned entirely through AWS CDK.",
+    stack: ["Next.js", "Amplify", "CDK"],
+    link: "https://github.com/fatemehfeizipour/Projects/blob/main/Nextjs-portfolio-amplify-project/README.md",
   },
   {
     title: "Infrastructure as Code with CloudFormation",
