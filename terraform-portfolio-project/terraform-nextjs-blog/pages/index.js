@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import Card from '../components/card';
+import Footer from '../components/footer';
+import Header from '../components/header';
 
 export default function Home() {
   return (
@@ -10,55 +13,43 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <Header/>
 
         <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
+          <code>James Smith, freelance web designer</code>
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Card
+            link="https://nextjs.org/docs"
+            title="Documentation"
+            description="Personal technical notes and structured learning summaries from my AWS journey"
+            />
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+          <Card
+            title="Learn"
+            description="Hands-on learning journey through AWS Cloud Engineer Academy and personal practice"
+            link="https://nextjs.org/learn"
+            />
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+{/*This card will NOT open in a new tab — normal same-page navigation*/}
+          <Card
+            title="Projects"
+            description="End-to-end cloud solutions that I design and build to simulate real-world AWS environments"
+            link="https://github.com/vercel/next.js/tree/canary/examples"
+            />
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+ {/*This card WILL open in a new tab*/}
+          <Card
+            title="cloud-portfolio"
+            description="My main GitHub showcase that represents my growth as a Cloud Engineer"
+            link="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            external
+            />
         </div>
       </main>
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
+        <Footer/>
 
       <style jsx>{`
         main {
@@ -69,24 +60,7 @@ export default function Home() {
           justify-content: center;
           align-items: center;
         }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
+        
         code {
           background: #fafafa;
           border-radius: 5px;
