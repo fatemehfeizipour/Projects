@@ -65,6 +65,7 @@ const projects: Project[] = [
     description:
       "Redesigned the network architecture for an invoicing application handling bank details for ~8,000 users — moved from a fully public setup to a defense-in-depth VPC with public/private/isolated subnet tiers, security group chaining, AWS Systems Manager Session Manager in place of SSH, and invoice files moved to S3 behind a VPC Gateway Endpoint.",
     stack: ["VPC", "Security Groups", "AWS Systems Manager", "S3"],
+    link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudsecurity-terraform-activity-7484165129354506240--UOa?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   },
   {
     title: "Highly Available Multi-AZ VPC",
@@ -78,6 +79,7 @@ const projects: Project[] = [
     description:
       "Designed a secure administrative access pattern across two Availability Zones — SSH to a bastion host in the public subnet, then SSL to private EC2 instances — keeping private resources fully unreachable from the internet, with full public/private route table mapping.",
     stack: ["VPC", "Bastion Host", "Route Tables", "NAT Gateway"],
+    link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudcomputing-cloudengineering-activity-7480596205891186688-wN3r?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   },
   {
     title: "Static Website on S3 + CloudFront with Terraform",
@@ -98,12 +100,15 @@ const projects: Project[] = [
     description:
       "Designed the architecture for a video-sharing platform covering the full upload-to-playback pipeline: S3 and Lambda for transcoding into multiple resolutions, Amazon Rekognition for content moderation, DynamoDB for metadata, API Gateway for auth and rate limiting, and CloudFront for low-latency delivery.",
     stack: ["S3", "Lambda", "Rekognition", "DynamoDB", "API Gateway", "CloudFront"],
+    link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudcomputing-systemdesign-activity-7477097594838523904-M5F4?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   },
   {
     title: "Traditional vs. Serverless Architecture",
     description:
       "Compared three architectural approaches for a scalable web application — horizontal scaling, vertical scaling, and a fully serverless design with API Gateway, Lambda, and EventBridge — weighing trade-offs in scalability, resilience, latency, and cost.",
     stack: ["System Design", "Lambda", "API Gateway", "DynamoDB"],
+    link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudcomputing-systemdesign-activity-7477097594838523904-M5F4?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
+  
   },
 ]
 
@@ -116,7 +121,7 @@ type Experience = {
 
 const experience: Experience[] = [
   {
-    role: "Cloud Engineer Intern",
+    role: "Junior Cloud Engineer",
     company: "Cloud Engineer Academy",
     period: "Jan 2026 — Present",
     description:
@@ -130,7 +135,7 @@ const experience: Experience[] = [
       "Coordinating schedules and maintaining accurate documentation while supporting clients' daily routines, with strong attention to detail and reliability in a fast-paced, client-facing role.",
   },
   {
-    role: "Immigration Assistant",
+    role: "Law Clerk",
     company: "Immigration Firms, Vancouver",
     period: "2021 — 2025",
     description:
