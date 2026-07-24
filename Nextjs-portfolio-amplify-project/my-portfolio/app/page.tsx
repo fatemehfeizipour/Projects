@@ -8,9 +8,9 @@ const profile = {
   name: "Fatemeh Feyzipour",
   role: "Aspiring Cloud Engineer",
   location: "Vancouver, BC",
-  tagline: "AWS Certified Cloud Practitioner building hands-on, secure cloud infrastructure.",
+  tagline: "AWS Certified Cloud Practitioner building automated, secure cloud infrastructure.",
   intro:
-    "I'm an AWS Certified Cloud Practitioner with hands-on experience across S3, CloudFront, EC2, and IAM. I use Infrastructure as Code and generative AI tools to speed up troubleshooting, documentation, and automation. With a strong background in client-facing work and technical documentation, I'm seeking opportunities in cloud support, cloud operations, or junior cloud engineering.",
+    "I'm an AWS Certified Cloud Practitioner with hands-on experience building CI/CD pipelines and defining infrastructure as code with AWS CDK, Terraform, and CloudFormation. I have practical depth in AWS networking and security — VPC design, subnet segmentation, security group chaining, and least-privilege access patterns — and I use generative AI tools to speed up troubleshooting, documentation, and automation. With a strong background in client-facing work and technical documentation, I'm seeking opportunities in cloud support, cloud operations, or junior cloud engineering.",
   email: "fatemehfeizipur@gmail.com",
   // TODO: replace with your GitHub profile URL
   github: "https://github.com/fatemehfeizipour",
@@ -26,8 +26,16 @@ const skills = [
   "VPC",
   "RDS",
   "CloudWatch",
+  "Lambda",
+  "DynamoDB",
+  "API Gateway",
+  "AWS Amplify",
+  "AWS CDK",
+  "Terraform",
   "CloudFormation",
+  "AWS Systems Manager",
   "AWS CLI",
+  "TypeScript",
   "Python",
   "Bash",
   "HTML",
@@ -40,23 +48,43 @@ type Project = {
   title: string
   description: string
   stack: string[]
-  link: string
+  // TODO: add a repo/blog link once this project has one published
+  link?: string
 }
 
 const projects: Project[] = [
   {
-    title: "Static Website on S3 + CloudFront with Terraform",
-    description:
-      "Built and deployed a static website using Amazon S3 for storage and Amazon CloudFront for global content delivery,  exploring multilayer S3 security.",
-    stack: ["Terraform", "CloudFront", "S3", "multilayer S3 security"],
-    link: "https://github.com/fatemehfeizipour/Projects/blob/main/terraform-portfolio-project/terraform-nextjs-blog/README.md",
-  },
-  {
     title: "Cloud-Native Portfolio Site",
     description:
-      "Built and deployed this portfolio itself as a cloud project — a Next.js site hosted on AWS Amplify with a GitHub CI/CD pipeline, provisioned entirely through AWS CDK.",
-    stack: ["Next.js", "Amplify", "CDK"],
+      "Built and deployed this portfolio itself as a cloud project — a Next.js site hosted on AWS Amplify with a fully automated GitHub CI/CD pipeline (Provision → Build → Deploy → Verify), provisioned entirely through AWS CDK.",
+    stack: ["Next.js", "Amplify", "AWS CDK", "CI/CD"],
     link: "https://github.com/fatemehfeizipour/Projects/blob/main/Nextjs-portfolio-amplify-project/README.md",
+  },
+  {
+    title: "Secure VPC Redesign for an Invoicing App",
+    description:
+      "Redesigned the network architecture for an invoicing application handling bank details for ~8,000 users — moved from a fully public setup to a defense-in-depth VPC with public/private/isolated subnet tiers, security group chaining, AWS Systems Manager Session Manager in place of SSH, and invoice files moved to S3 behind a VPC Gateway Endpoint.",
+    stack: ["VPC", "Security Groups", "AWS Systems Manager", "S3"],
+  },
+  {
+    title: "Highly Available Multi-AZ VPC",
+    description:
+      "Designed and deployed a highly available AWS VPC as code with Terraform, spanning two Availability Zones with public and private subnets, NAT Gateways, an Internet Gateway, and full route table configuration.",
+    stack: ["Terraform", "VPC", "EC2"],
+    link: "https://github.com/fatemehfeizipour/Projects/tree/main/terraform-portfolio-project/terraform-VPC",
+  },
+  {
+    title: "Bastion Host Access Architecture",
+    description:
+      "Designed a secure administrative access pattern across two Availability Zones — SSH to a bastion host in the public subnet, then SSL to private EC2 instances — keeping private resources fully unreachable from the internet, with full public/private route table mapping.",
+    stack: ["VPC", "Bastion Host", "Route Tables", "NAT Gateway"],
+  },
+  {
+    title: "Static Website on S3 + CloudFront with Terraform",
+    description:
+      "Built and deployed a static website using Amazon S3 for storage and Amazon CloudFront for global content delivery, exploring multilayer S3 security.",
+    stack: ["Terraform", "CloudFront", "S3", "Multilayer S3 Security"],
+    link: "https://github.com/fatemehfeizipour/Projects/blob/main/terraform-portfolio-project/terraform-nextjs-blog/README.md",
   },
   {
     title: "Infrastructure as Code with CloudFormation",
@@ -66,11 +94,16 @@ const projects: Project[] = [
     link: "https://github.com/fatemehfeizipour/Projects/tree/main/cloudformation-projects",
   },
   {
-    title: "Infrastructure as Code with Terraform",
+    title: "A Video Sharing Platform — System Design",
     description:
-      "Designed and deployed AWS infrastructure using Terraform, including VPCs, subnets, EC2, IAM, Auto Scaling Groups, Load Balancers, and NAT Gateways.",
-    stack: ["Terraform", "VPC", "EC2"],
-    link: "https://github.com/fatemehfeizipour/Projects/tree/main/terraform-portfolio-project/terraform-VPC",
+      "Designed the architecture for a video-sharing platform covering the full upload-to-playback pipeline: S3 and Lambda for transcoding into multiple resolutions, Amazon Rekognition for content moderation, DynamoDB for metadata, API Gateway for auth and rate limiting, and CloudFront for low-latency delivery.",
+    stack: ["S3", "Lambda", "Rekognition", "DynamoDB", "API Gateway", "CloudFront"],
+  },
+  {
+    title: "Traditional vs. Serverless Architecture",
+    description:
+      "Compared three architectural approaches for a scalable web application — horizontal scaling, vertical scaling, and a fully serverless design with API Gateway, Lambda, and EventBridge — weighing trade-offs in scalability, resilience, latency, and cost.",
+    stack: ["System Design", "Lambda", "API Gateway", "DynamoDB"],
   },
 ]
 
@@ -87,14 +120,14 @@ const experience: Experience[] = [
     company: "Cloud Engineer Academy",
     period: "Jan 2026 — Present",
     description:
-      "Designing and deploying AWS infrastructure with CloudFormation (VPCs, EC2, IAM, Auto Scaling, Load Balancers, NAT Gateways). Documenting hands-on projects with Git/GitHub, creating architecture diagrams, and leveraging generative AI to accelerate troubleshooting and optimize templates.",
+      "Designing and deploying AWS infrastructure with CloudFormation and Terraform (VPCs, EC2, IAM, Auto Scaling, Load Balancers, NAT Gateways). Documenting hands-on projects with Git/GitHub, creating architecture diagrams, and leveraging generative AI to accelerate troubleshooting and optimize templates.",
   },
   {
     role: "Community Support Worker",
     company: "Community Centers, Vancouver",
     period: "2026 — present",
     description:
-      "Coordinated appointments, schedules, and daily routines while maintaining accurate client documentation, Assisted clients with administrative and personal tasks, including document preparation and errands, Built trusted, respectful relationships with clients and their families through consistent, attentive care, Communicated regularly with clients to understand and adapt to their evolving needs and preferences, Demonstrated strong attention to detail, empathy, and reliability in a client-facing support role.",
+      "Coordinating schedules and maintaining accurate documentation while supporting clients' daily routines, with strong attention to detail and reliability in a fast-paced, client-facing role.",
   },
   {
     role: "Immigration Assistant",
@@ -267,6 +300,43 @@ function HeroSection() {
   )
 }
 
+function ProjectCard({ project }: { project: Project }) {
+  const body = (
+    <>
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-lg font-medium leading-snug tracking-tight text-[#1c2b36]">{project.title}</h3>
+        {project.link && (
+          <ArrowUpRight
+            className="size-5 shrink-0 text-[#5c6b78] transition-colors group-hover:text-[#1f6f8b]"
+            aria-hidden="true"
+          />
+        )}
+      </div>
+      <p className="mt-3 flex-1 text-pretty leading-relaxed text-[#5c6b78]">{project.description}</p>
+      <ul className="mt-4 flex flex-wrap gap-2" aria-label="Tech stack">
+        {project.stack.map((tech) => (
+          <li key={tech} className="rounded-md bg-[#eef4f8] px-2 py-0.5 text-xs font-medium text-[#2a5f7a]">
+            {tech}
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+
+  const className =
+    "group flex flex-col rounded-xl border border-[#e2e8ee] bg-white p-6 transition-all hover:border-[#1f6f8b]/50 hover:shadow-[0_1px_20px_-8px_#1f6f8b]"
+
+  if (project.link) {
+    return (
+      <a href={project.link} target="_blank" rel="noopener noreferrer" className={className}>
+        {body}
+      </a>
+    )
+  }
+
+  return <div className={className}>{body}</div>
+}
+
 function ProjectsSection() {
   return (
     <section id="projects" className="scroll-mt-20 border-t border-[#e2e8ee] pt-16">
@@ -277,34 +347,7 @@ function ProjectsSection() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {projects.map((project) => (
-          <a
-            key={project.title}
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col rounded-xl border border-[#e2e8ee] bg-white p-6 transition-all hover:border-[#1f6f8b]/50 hover:shadow-[0_1px_20px_-8px_#1f6f8b]"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <h3 className="text-lg font-medium leading-snug tracking-tight text-[#1c2b36]">{project.title}</h3>
-              <ArrowUpRight
-                className="size-5 shrink-0 text-[#5c6b78] transition-colors group-hover:text-[#1f6f8b]"
-                aria-hidden="true"
-              />
-            </div>
-            <p className="mt-3 flex-1 text-pretty leading-relaxed text-[#5c6b78]">
-              {project.description}
-            </p>
-            <ul className="mt-4 flex flex-wrap gap-2" aria-label="Tech stack">
-              {project.stack.map((tech) => (
-                <li
-                  key={tech}
-                  className="rounded-md bg-[#eef4f8] px-2 py-0.5 text-xs font-medium text-[#2a5f7a]"
-                >
-                  {tech}
-                </li>
-              ))}
-            </ul>
-          </a>
+          <ProjectCard key={project.title} project={project} />
         ))}
       </div>
     </section>
