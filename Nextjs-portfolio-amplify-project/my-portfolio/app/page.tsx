@@ -10,7 +10,7 @@ const profile = {
   location: "Vancouver, BC",
   tagline: "AWS Certified Cloud Practitioner building automated, secure cloud infrastructure.",
   intro:
-    "I'm an AWS Certified Cloud Practitioner with hands-on experience building CI/CD pipelines and defining infrastructure as code with AWS CDK, Terraform, and CloudFormation. I have practical depth in AWS networking and security — VPC design, subnet segmentation, security group chaining, and least-privilege access patterns — and I use generative AI tools to speed up troubleshooting, documentation, and automation. With a strong background in client-facing work and technical documentation, I'm seeking opportunities in cloud support, cloud operations, or junior cloud engineering.",
+    "I'm an AWS Certified Cloud Practitioner with hands-on experience building CI/CD pipelines and defining infrastructure as code with AWS CDK, Terraform, and CloudFormation. I have practical depth in AWS networking and security - VPC design, subnet segmentation, security group chaining, and least-privilege access patterns - and I use generative AI tools to speed up troubleshooting, documentation, and automation. With a strong background in client-facing work and technical documentation, I'm seeking opportunities in cloud support, cloud operations, or junior cloud engineering.",
   email: "fatemehfeizipur@gmail.com",
   
   github: "https://github.com/fatemehfeizipour",
@@ -56,14 +56,14 @@ const projects: Project[] = [
   {
     title: "Cloud-Native Portfolio Site",
     description:
-      "Built and deployed this portfolio itself as a cloud project — a Next.js site hosted on AWS Amplify with a fully automated GitHub CI/CD pipeline (Provision → Build → Deploy → Verify), provisioned entirely through AWS CDK.",
+      "Built and deployed this portfolio itself as a cloud project - a Next.js site hosted on AWS Amplify with a fully automated GitHub CI/CD pipeline (Provision → Build → Deploy → Verify), provisioned entirely through AWS CDK.",
     stack: ["Next.js", "Amplify", "AWS CDK", "CI/CD"],
     link: "https://github.com/fatemehfeizipour/Projects/blob/main/Nextjs-portfolio-amplify-project/README.md",
   },
   {
     title: "Secure VPC Redesign for an Invoicing App",
     description:
-      "Redesigned the network architecture for an invoicing application handling bank details for ~8,000 users — moved from a fully public setup to a defense-in-depth VPC with public/private/isolated subnet tiers, security group chaining, AWS Systems Manager Session Manager in place of SSH, and invoice files moved to S3 behind a VPC Gateway Endpoint.",
+      "Redesigned the network architecture for an invoicing application handling bank details for ~8,000 users - moved from a fully public setup to a defense-in-depth VPC with public/private/isolated subnet tiers, security group chaining, AWS Systems Manager Session Manager in place of SSH, and invoice files moved to S3 behind a VPC Gateway Endpoint.",
     stack: ["VPC", "Security Groups", "AWS Systems Manager", "S3"],
     link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudsecurity-terraform-activity-7484165129354506240--UOa?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   },
@@ -77,7 +77,7 @@ const projects: Project[] = [
   {
     title: "Bastion Host Access Architecture",
     description:
-      "Designed a secure administrative access pattern across two Availability Zones — SSH to a bastion host in the public subnet, then SSL to private EC2 instances — keeping private resources fully unreachable from the internet, with full public/private route table mapping.",
+      "Designed a secure administrative access pattern across two Availability Zones - SSH to a bastion host in the public subnet, then SSL to private EC2 instances - keeping private resources fully unreachable from the internet, with full public/private route table mapping.",
     stack: ["VPC", "Bastion Host", "Route Tables", "NAT Gateway"],
     link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudcomputing-cloudengineering-activity-7480596205891186688-wN3r?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   },
@@ -96,7 +96,7 @@ const projects: Project[] = [
     link: "https://github.com/fatemehfeizipour/Projects/tree/main/cloudformation-projects",
   },
   {
-    title: "A Video Sharing Platform — System Design",
+    title: "A Video Sharing Platform - System Design",
     description:
       "Designed the architecture for a video-sharing platform covering the full upload-to-playback pipeline: S3 and Lambda for transcoding into multiple resolutions, Amazon Rekognition for content moderation, DynamoDB for metadata, API Gateway for auth and rate limiting, and CloudFront for low-latency delivery.",
     stack: ["S3", "Lambda", "Rekognition", "DynamoDB", "API Gateway", "CloudFront"],
@@ -105,7 +105,7 @@ const projects: Project[] = [
   {
     title: "Traditional vs. Serverless Architecture",
     description:
-      "Compared three architectural approaches for a scalable web application — horizontal scaling, vertical scaling, and a fully serverless design with API Gateway, Lambda, and EventBridge — weighing trade-offs in scalability, resilience, latency, and cost.",
+      "Compared three architectural approaches for a scalable web application - horizontal scaling, vertical scaling, and a fully serverless design with API Gateway, Lambda, and EventBridge - weighing trade-offs in scalability, resilience, latency, and cost.",
     stack: ["System Design", "Lambda", "API Gateway", "DynamoDB"],
     link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudcomputing-systemdesign-activity-7477097594838523904-M5F4?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   
@@ -123,28 +123,28 @@ const experience: Experience[] = [
   {
     role: "Junior Cloud Engineer",
     company: "Cloud Engineer Academy",
-    period: "Jan 2026 — Present",
+    period: "Jan 2026 - Present",
     description:
       "Designing and deploying AWS infrastructure with CloudFormation and Terraform (VPCs, EC2, IAM, Auto Scaling, Load Balancers, NAT Gateways). Documenting hands-on projects with Git/GitHub, creating architecture diagrams, and leveraging generative AI to accelerate troubleshooting and optimize templates.",
   },
   {
     role: "Community Support Worker",
     company: "Community Centers, Vancouver",
-    period: "2026 — present",
+    period: "2026 - present",
     description:
       "Coordinating schedules and maintaining accurate documentation while supporting clients' daily routines, with strong attention to detail and reliability in a fast-paced, client-facing role.",
   },
   {
     role: "Law Clerk",
     company: "Immigration Firms, Vancouver",
-    period: "2021 — 2025",
+    period: "2021 - 2025",
     description:
       "Managed structured client documentation and multi-step application workflows, ensuring accuracy and regulatory compliance. Produced detailed technical documentation and reports with a high attention to detail.",
   },
   {
     role: "Freelance Web Developer",
     company: "Self-Employed",
-    period: "2014 — 2016",
+    period: "2014 - 2016",
     description:
       "Built and customized responsive websites using HTML, CSS, JavaScript, and WordPress. Worked directly with clients to deliver functional web solutions and handle updates and troubleshooting.",
   },
@@ -167,13 +167,13 @@ const education: Education[] = [
   {
     credential: "Diploma, Immigration Assistant",
     school: "CDI College, Vancouver",
-    period: "2023 — 2024",
+    period: "2023 - 2024",
     detail: "Graduated with an 87.68 grade. Focused on structured documentation, workflow management, and client communication.",
   },
   {
     credential: "Bachelor's Degree, Accounting",
     school: "Imam Reza International University",
-    period: "2007 — 2011",
+    period: "2007 - 2011",
     detail: "Built a strong foundation in analytical thinking, financial reporting, and detail-oriented work.",
   },
 ]
