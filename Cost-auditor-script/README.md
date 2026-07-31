@@ -103,9 +103,13 @@ Running in TEST MODE: short lookback window, not for real audits.
   i-0ec06322f4cfabceb | t3.micro | avg CPU 0.14% over 3 datapoints | launched 2026-07-31 01:18:41+00:00
 ```
 
-*(Screenshots of both runs are in `/screenshots` — see below.)*
-/screenshots/Idle instance detected.png
-/screenshots/no waste.png
+**Clean run:**
+
+![Full audit run showing no waste found](screenshots/no-waste.png)
+
+**Idle instance caught during test-mode run:**
+
+![Idle EC2 instance flagged during test-mode run](screenshots/idle-instance-detected.png)
 
 ## Project structure
 
