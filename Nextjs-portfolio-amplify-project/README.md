@@ -56,7 +56,7 @@ cdk deploy
 
 Full details, including secrets setup, build spec configuration, and troubleshooting notes, live in each subfolder's own README linked above.
 
-Loom video: https://lnkd.in/g-_ZAGv8
+Loom video: (https://www.loom.com/share/e0f95bb152ad456f98005134899ab030)
 
 ## Tech Stack
 
