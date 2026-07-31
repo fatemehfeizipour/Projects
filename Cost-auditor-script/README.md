@@ -104,6 +104,8 @@ Running in TEST MODE: short lookback window, not for real audits.
 ```
 
 *(Screenshots of both runs are in `/screenshots` — see below.)*
+/screenshots/Idle instance detected.png
+/screenshots/no waste.png
 
 ## Project structure
 
