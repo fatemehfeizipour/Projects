@@ -145,3 +145,8 @@ The idle-instance check is the most involved of the four, since it chains two AW
 ## Tech stack
 
 Python · boto3 · AWS (EC2, EBS, S3, CloudWatch, Elastic IP) · argparse
+
+Walkthrough video: 
+https://www.linkedin.com/posts/fatemeh-feyzipour_aws-python-boto3-activity-7489349478773260288-vzou?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU
+
+https://www.tella.tv/video/automate-aws-cost-savings-with-python-8ug5
