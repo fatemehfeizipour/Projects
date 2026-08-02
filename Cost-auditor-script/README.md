@@ -35,7 +35,7 @@ Unused cloud resources are one of the most common sources of avoidable AWS spend
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/cost-auditor-script.git
+git clone https://github.com/fatemehfeizipour/Projects/tree/main/Cost-auditor-script.git
 cd cost-auditor-script
 pip install boto3
 ```
