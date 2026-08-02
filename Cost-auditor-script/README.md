@@ -35,7 +35,7 @@ Unused cloud resources are one of the most common sources of avoidable AWS spend
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/cost-auditor-script.git
+git clone https://github.com/fatemehfeizipour/Projects/tree/main/Cost-auditor-script.git
 cd cost-auditor-script
 pip install boto3
 ```
@@ -103,7 +103,13 @@ Running in TEST MODE: short lookback window, not for real audits.
   i-0ec06322f4cfabceb | t3.micro | avg CPU 0.14% over 3 datapoints | launched 2026-07-31 01:18:41+00:00
 ```
 
-*(Screenshots of both runs are in `/screenshots` — see below.)*
+**Clean run:**
+
+![Full audit run showing no waste found](screenshots/no-waste.png)
+
+**Idle instance caught during test-mode run:**
+
+![Idle EC2 instance flagged during test-mode run](screenshots/idle-instance-detected.png)
 
 ## Project structure
 
@@ -139,3 +145,6 @@ The idle-instance check is the most involved of the four, since it chains two AW
 ## Tech stack
 
 Python · boto3 · AWS (EC2, EBS, S3, CloudWatch, Elastic IP) · argparse
+
+Walkthrough video: 
+https://www.linkedin.com/posts/fatemeh-feyzipour_aws-python-boto3-activity-7489349478773260288-vzou?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU

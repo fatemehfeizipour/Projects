@@ -1,6 +1,6 @@
 # portfolio-infrastructure
 
-Infrastructure as Code (AWS CDK, TypeScript) that provisions AWS Amplify Hosting for the [`my-portfolio`](../Nextjs-portfolio-amplify-project/my-portfolio) Next.js application.
+Infrastructure as Code (AWS CDK, TypeScript) that provisions AWS Amplify Hosting for the [`my-portfolio`](https://main.d27jisummbpcj6.amplifyapp.com/) Next.js application.
 
 This folder defines the Amplify App, its connected GitHub branch, and the build spec. It does **not** contain application code — see the sibling app folder for that.
 
