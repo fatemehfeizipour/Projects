@@ -29,6 +29,8 @@ const skills = [
   "Lambda",
   "DynamoDB",
   "API Gateway",
+  "SQS",
+  "SNS",
   "AWS Amplify",
   "AWS CDK",
   "Terraform",
@@ -37,6 +39,7 @@ const skills = [
   "AWS CLI",
   "TypeScript",
   "Python",
+  "boto3",
   "Bash",
   "HTML",
   "CSS",
@@ -59,6 +62,13 @@ const projects: Project[] = [
       "Built and deployed this portfolio itself as a cloud project - a Next.js site hosted on AWS Amplify with a fully automated GitHub CI/CD pipeline (Provision → Build → Deploy → Verify), provisioned entirely through AWS CDK.",
     stack: ["Next.js", "Amplify", "AWS CDK", "CI/CD"],
     link: "https://github.com/fatemehfeizipour/Projects/blob/main/Nextjs-portfolio-amplify-project/README.md",
+  },
+  {
+    title: "AWS Cost & Resource Auditor",
+    description:
+      "Read-only CLI tool that scans an AWS account for common sources of wasted spend - unattached EBS volumes, idle EC2 instances (via CloudWatch CPU metrics), S3 buckets missing lifecycle policies, and unused Elastic IPs. Built with Python and boto3, with paginated API calls and fail-safe error handling per check.",
+    stack: ["Python", "boto3", "CloudWatch", "EC2", "S3"],
+    link: "https://github.com/fatemehfeizipour/Projects/tree/main/Cost-auditor-script",
   },
   {
     title: "Secure VPC Redesign for an Invoicing App",
@@ -109,6 +119,13 @@ const projects: Project[] = [
     stack: ["System Design", "Lambda", "API Gateway", "DynamoDB"],
     link: "https://www.linkedin.com/posts/fatemeh-feyzipour_aws-cloudcomputing-systemdesign-activity-7477097594838523904-M5F4?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOdEekBNejZcME7HcR483AQlDee7t4jnBU"
   
+  },
+  {
+    title: "Asynchronous Messaging with SQS + SNS",
+    description:
+      "Implemented a decoupled order-processing pattern: producer publishes messages to an SQS queue, a consumer processes and deletes them via long polling, with SNS fan-out for downstream notifications. Demonstrates async processing and loose coupling between services.",
+    stack: ["SQS", "SNS", "Python", "boto3"],
+    link: "https://github.com/fatemehfeizipour/Projects/tree/main/aws-sqs-project",
   },
 ]
 
