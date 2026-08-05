@@ -43,7 +43,7 @@ StartupCo launched fast and deferred security to hit their deadline:
 - **Account-wide MFA enforcement** via a deny-unless-MFA policy, plus a strong password policy
 - **A documented dev/prod isolation decision** (separate VPCs + tag-based IAM conditions, evaluated against separate accounts and naming-convention-only approaches)
 
-Full reasoning, trade-offs, and screenshots are in [`01-PROJECT-DOCUMENTATION.md`](./01-PROJECT-DOCUMENTATION.md).
+Full reasoning, trade-offs, and screenshots are in [`./docs/01-PROJECT-DOCUMENTATION.md`](./docs/01-PROJECT-DOCUMENTATION.md).
 
 ## A few decisions worth highlighting
 
