@@ -4,9 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 # -------------------
 # 1️⃣ Connect to RDS
-# Replace the values with your RDS info
-DB_USER = "Fatemeh"
-DB_PASSWORD = "Vsn8615$"
+
+import os
+DB_USER = os.environ.get("DB_USER")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
 DB_HOST = "tasks-db.ctckeuu8ytly.ca-central-1.rds.amazonaws.com"
 DB_PORT = "5432"
 DB_NAME = "tasks_db"
