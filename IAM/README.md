@@ -1,4 +1,4 @@
-# AWS IAM Security Hardening — Fitness App Startup (Portfolio Project)
+# AWS IAM Security Hardening - Fitness App Startup (Portfolio Project)
 
 A hands-on cloud security consulting project simulating a real-world engagement: taking a startup from "everyone shares root credentials" to a documented, least-privilege IAM structure with a secured root user and a hardened network architecture.
 
