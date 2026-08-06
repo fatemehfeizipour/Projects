@@ -2,13 +2,13 @@
 
 A hands-on cloud security consulting project simulating a real-world engagement: taking a startup from "everyone shares root credentials" to a documented, least-privilege IAM structure with a secured root user and a hardened network architecture.
 
-> 🧪 This is a fictional client scenario (StartupCo, a 10-person fitness app startup) used to practice and demonstrate AWS security fundamentals in a realistic, constraint-driven context — not a copy-paste tutorial.
+> 🧪 This is a fictional client scenario (StartupCo, a 10-person fitness app startup) used to practice and demonstrate AWS security fundamentals in a realistic, constraint-driven context - not a copy-paste tutorial.
 
 ## What's in this repo
 
 ```
 ├── docs/
-│   └── 01-PROJECT-DOCUMENTATION.md   # Full write-up: problem, architecture, IAM design, reasoning
+│   └── PROJECT-DOCUMENTATION.md   # Full write-up: problem, architecture, IAM design, reasoning
 ├── diagrams/
 │   ├── architecture-infrastructure.png
 │   └── architecture-access-model.png
