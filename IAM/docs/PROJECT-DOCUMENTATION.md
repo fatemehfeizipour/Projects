@@ -1,7 +1,7 @@
 # AWS Cloud Security Consulting Project: IAM Access Control for a Fitness App Startup
 
 **Role:** Cloud Engineer Consultant (portfolio project)
-**Client (fictional):** StartupCo — early-stage fitness tracking app, 10 employees, 3 months on AWS
+**Client (fictional):** StartupCo - early-stage fitness tracking app, 10 employees, 3 months on AWS
 
 ---
 
@@ -13,11 +13,11 @@ StartupCo launched quickly and, like many early-stage startups, deferred securit
 - No separation of permissions between Developers, Operations, Finance, and Data Analysts
 - No MFA, no password policy
 - Root credentials shared via team chat
-- Infrastructure: EC2, S3, RDS, CloudWatch, with separate dev/prod environments - all accessed the same way, by everyone
+- Infrastructure: EC2, S3, RDS, CloudWatch, with separate dev/prod environments — all accessed the same way, by everyone
 
 The risk: any single leaked credential (or disgruntled/careless employee) has unrestricted control over production infrastructure and customer fitness data. There is no audit trail distinguishing who did what, and no way to revoke one person's access without rotating credentials for the entire company.
 
-**Goal:** design and implement a least-privilege IAM structure, secure the root user, and document an architecture that reflects both the current infrastructure and security-hardened improvements - without over-engineering for a 10-person company.
+**Goal:** design and implement a least-privilege IAM structure, secure the root user, and document an architecture that reflects both the current infrastructure and security-hardened improvements — without over-engineering for a 10-person company.
 
 ---
 
@@ -30,20 +30,20 @@ Two environments (`VPC-Development`, `VPC-Production`), each with:
 - **Public subnet:** Application Load Balancer (ALB), NAT Gateway
 - **Private subnet:** EC2 (application server), RDS
 - **S3 Gateway Endpoint:** private-subnet resources reach S3 without traversing the NAT Gateway or public internet
-- **CloudWatch:** drawn *outside* both VPCs, since it is a regional/account-level service, not a VPC-scoped resource - EC2 and RDS in both environments push logs/metrics to it (dashed connections in the diagram, distinct from solid network-path arrows)
+- **CloudWatch:** drawn *outside* both VPCs, since it is a regional/account-level service, not a VPC-scoped resource — EC2 and RDS in both environments push logs/metrics to it (dashed connections in the diagram, distinct from solid network-path arrows)
 
 **Traffic flow (inbound):**
 ```
 User → Internet Gateway → ALB (public subnet) → EC2 (private subnet)
 ```
-The ALB terminates the user's connection and opens a *new*, separate connection to EC2 over the VPC's internal network. EC2 never has a public IP or a route to the Internet Gateway — its security group only accepts inbound traffic from the ALB's security group, not from `0.0.0.0/0`. This means EC2 is unreachable from the internet under any circumstance, even if its private IP were somehow discovered.
+The ALB terminates the user's connection and opens a *new*, separate connection to EC2 over the VPC's internal network. EC2 never has a public IP or a route to the Internet Gateway - its security group only accepts inbound traffic from the ALB's security group, not from `0.0.0.0/0`. This means EC2 is unreachable from the internet under any circumstance, even if its private IP were somehow discovered.
 
 **Traffic flow (outbound, e.g., OS patches/dependencies):**
 ```
 EC2 (private subnet) → NAT Gateway (public subnet) → Internet Gateway → internet
 ```
 
-*[../diagrams/architecture-infrastructure.png]*
+![Infrastructure architecture diagram](../diagrams/architecture-infrastructure.png)
 
 ### 2.2 Dev/Prod separation — decision and trade-offs
 
@@ -57,7 +57,53 @@ The brief specifies "several development and production environments" without pr
 
 **Decision:** Separate VPCs within a single account, with IAM policy conditions on the `environment` resource tag (e.g., `aws:ResourceTag/environment = dev`). This gives real network isolation and a genuine (if tag-dependent) IAM boundary, appropriate for a 10-person company, without the operational overhead of full multi-account management.
 
-**Documented limitation:** tag-based conditions only govern *existing* tagged resources; a policy would need an additional `ec2:CreateTags`-scoped statement to prevent creation of untagged resources that could otherwise slip outside the condition. Recommended as a future enhancement.
+**Documented limitation:** the condition checks whether a resource is *already* tagged `dev` — so a brand-new, untagged EC2 instance fails that check by default. This creates a deadlock: a Developer can't tag a new instance to bring it into scope either, since tagging (`ec2:CreateTags`) is itself governed by the same `aws:ResourceTag` condition, and nothing exists yet for it to match against. As tested and demonstrated (see §4.2 below), the policy governs managing resources an admin has already tagged; self-service instance creation for Developers is scoped out of the tested baseline and covered as an enhancement here.
+
+**Enhanced version — Developer self-service instance creation.** The fix uses `aws:RequestTag` instead of `aws:ResourceTag`, checking the tag being *applied at creation time* rather than one that already exists — this breaks the deadlock. Three additional statements are needed beyond the baseline policy:
+
+```json
+{
+  "Sid": "AllowInstanceCreationAsDev",
+  "Effect": "Allow",
+  "Action": ["ec2:RunInstances"],
+  "Resource": "arn:aws:ec2:*:*:instance/*",
+  "Condition": {
+    "StringEquals": { "aws:RequestTag/environment": "dev" }
+  }
+},
+{
+  "Sid": "AllowRunInstancesSupportingResources",
+  "Effect": "Allow",
+  "Action": ["ec2:RunInstances"],
+  "Resource": [
+    "arn:aws:ec2:*:*:network-interface/*",
+    "arn:aws:ec2:*:*:subnet/*",
+    "arn:aws:ec2:*:*:security-group/*",
+    "arn:aws:ec2:*::image/*",
+    "arn:aws:ec2:*:*:volume/*",
+    "arn:aws:ec2:*:*:key-pair/*"
+  ]
+},
+{
+  "Sid": "AllowTaggingAsDevOnly",
+  "Effect": "Allow",
+  "Action": "ec2:CreateTags",
+  "Resource": "*",
+  "Condition": {
+    "StringEquals": {
+      "aws:RequestTag/environment": "dev",
+      "ec2:CreateAction": "RunInstances"
+    }
+  }
+}
+```
+
+Why each exists:
+- `AllowInstanceCreationAsDev` — permits launching a new instance, but only if it's tagged `environment=dev` as part of the same launch request. Launching untagged, or tagged `prod`, isn't covered.
+- `AllowRunInstancesSupportingResources` — `RunInstances` also checks permissions on the network interface, subnet, security group, AMI, volume, and key pair it references; these aren't environment-restricted since they're supporting resources, not the instance itself.
+- `AllowTaggingAsDevOnly` — separately allows `CreateTags`, scoped both to the `dev` tag value and, via `ec2:CreateAction`, to tags applied specifically during a `RunInstances` call — preventing this permission from being used to retag unrelated existing resources.
+
+Known remaining gap: a Developer still can't retag an existing untagged resource created by someone else outside of a `RunInstances` call — narrower and less common in practice, not addressed here.
 
 **Recommendation to the client:** as the company scales past ~20-30 employees or handles more sensitive data volume, migrate to separate AWS accounts (via AWS Organizations) for stronger isolation.
 
@@ -65,7 +111,7 @@ The brief specifies "several development and production environments" without pr
 
 ### 2.3 Access/permission model diagram
 
-*[../diagrams/architecture-access-model.png]*
+*[Insert access model diagram image here]*
 
 Groups map directly to the brief's team structure, plus one additional group for administrative access:
 
@@ -79,35 +125,44 @@ Groups map directly to the brief's team structure, plus one additional group for
 
 ## 3. Securing the Root User
 
-Root user and root account are the same identity in AWS - a client-side terminology note clarified early in the project (the brief said "root account," which is informally used interchangeably with "root user").
+Root user and root account are the same identity in AWS — a client-side terminology note clarified early in the project (the brief said "root account," which is informally used interchangeably with "root user").
 
 Actions taken:
 
 1. **MFA enabled** on the root user via virtual MFA app (free, no hardware dependency for a small team)
-2. **Root access keys checked and confirmed absent** (or deleted, if present) - root should never have programmatic access keys, since they bypass MFA for API calls
+2. **Root access keys checked and confirmed absent** (or deleted, if present) — root should never have programmatic access keys, since they bypass MFA for API calls
 3. **Root password rotated** (previous one was compromised by being shared in team chat) and stored in a password manager, access restricted to 1–2 people (CTO + one Ops lead)
-4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) - every day-to-day action now goes through the role-based IAM structure below
+4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) — every day-to-day action now goes through the role-based IAM structure below
 5. **Root login detection/alerting configured** (detective control, complementing the preventive controls above):
 
 ```
 Root login event
-    → CloudTrail (records login as a management event)
-    → CloudWatch Logs (CloudTrail delivers events here)
-    → CloudWatch Metric Filter (pattern: userIdentity.type = "Root")
-    → CloudWatch Alarm (triggers if metric ≥ 1)
-    → SNS Topic → email notification
+    → CloudTrail (management-event-trail, multi-region, records login)
+    → CloudWatch Logs (aws-cloudtrail-logs-<account-id>-<suffix> log group)
+    → CloudWatch Metric Filter (RootLoginFilter, namespace RootLoginMonitoring)
+    → CloudWatch Alarm ("login as root", triggers if RootLoginCount ≥ 1)
+    → SNS Topic (Default_CloudWatch_Alarms_Topic) → email notification
 ```
+
+CloudTrail is a mandatory-S3, optional-CloudWatch-Logs service: every trail must write to an S3 bucket (durable, long-term archive), and can optionally also stream the same events to CloudWatch Logs in near-real-time so they can be actively monitored. Encryption was left at default S3-managed (SSE-S3) rather than a customer-managed KMS key — the added cost and key-management overhead of KMS wasn't proportionate for this account's low event volume, and SSE-S3 already covers data-at-rest protection. This tradeoff, not a maximalist "enable everything" default, is the kind of decision worth being able to explain.
 
 Metric filter pattern used:
 ```
 { $.userIdentity.type = "Root" && $.eventType != "AwsServiceEvent" }
 ```
 
-This ensures that even if root usage policy is violated, it's detected immediately rather than relying on trust alone.
+**Verified working, not just configured.** Getting this pipeline to actually fire took several rounds of debugging, worth documenting since the failure modes are non-obvious:
+- Initially tried the console's "Create composite alarm" flow instead of a plain metric alarm — composite alarms use a different field (`alarmRule`) and rejected an empty rule with a validation error unrelated to the real issue.
+- The metric didn't appear in the alarm's "Select metric" browser at first — CloudWatch only lists metrics that have already emitted at least one data point, and no root login had occurred yet since the trail was created, so there was nothing to browse for. Creating the alarm directly from the metric filter's row (rather than the general metric browser) sidesteps this.
+- The metric filter's test box needs a **single-line (minified)** JSON log event — pasting the pretty-printed, multi-line version caused CloudWatch to treat every line as a separate malformed "event," none of which could match.
+- The alarm's threshold condition was initially set to **Lower/Equal (≤ 1)** instead of **Greater/Equal (≥ 1)** — an easy radio-button mixup that put the alarm in a permanent false "ALARM" state, since a count of 0 is always ≤ 1.
+
+Once corrected, the alarm history confirms two independent successful cycles — real root logins on 2026-08-07 correctly transitioned the alarm `Insufficient data → In alarm`, with the SNS notification action executing successfully both times, then settling back to `Insufficient data` once the triggering data point aged out of the evaluation window (expected, since the metric only publishes a data point when a match occurs, not a continuous "0" baseline).
 
 *[Insert screenshot: MFA device assigned confirmation]*
 *[Insert screenshot: Security credentials page — "Access keys: none"]*
-*[Insert screenshot: CloudWatch alarm in "OK" / triggered state]*
+*[Insert screenshot: alarm History tab showing both Insufficient data → In alarm transitions with successful SNS action execution]*
+*[Insert screenshot: SNS alert email received]*
 
 ---
 
@@ -187,6 +242,8 @@ An IAM user with `AdministratorAccess` was created to replace day-to-day root us
 - **IAM read-only ≠ database read-only.** IAM controls the AWS API surface; it has no visibility into what's inside a database or an S3 object. This distinction matters when a "read-only" requirement in a brief could mean either.
 - **AWS managed policies are broad by design.** They're a good starting point but often don't respect resource-level boundaries a business actually needs (e.g., one bucket vs. all buckets). Custom inline policies with explicit ARNs are the difference between "access to the service" and "access to *this* resource."
 - **Tag-based conditional access is powerful but fragile** — it depends entirely on consistent resource tagging, which is a process/discipline problem as much as a technical one.
+- **CloudWatch metrics are lazy, not eager.** A metric doesn't exist as a browsable entity until it's actually emitted a data point at least once — configuring a metric filter isn't enough on its own; something has to trigger a real match first, or the alarm-creation flow will show an empty metric list with no indication why.
+- **Alarm threshold direction is worth double-checking, not assuming.** A single flipped radio button (Lower/Equal vs. Greater/Equal) silently produces a permanently-triggered alarm rather than an error — worth verifying the alarm's own state description (e.g., "RootLoginCount <= 1 for 1 datapoint") matches the intended logic before trusting it.
 
 ---
 
