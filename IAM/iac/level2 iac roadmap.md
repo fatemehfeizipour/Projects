@@ -97,17 +97,17 @@ iac/cdk/
 | Multi-cloud portability | Yes | No (AWS-only) | No (AWS-only) |
 | Best for... | | | |
 
-*(Fill in the blank cells after building all three — this table is the actual payoff of doing the exercise three times, and a strong artifact for interviews.)*
+*(Fill in the blank cells after building all three - this table is the actual payoff of doing the exercise three times, and a strong artifact for interviews.)*
 
 ---
 
 ## Suggested order of work
 
-1. Terraform — full IAM structure, tested against your existing AWS account (in a way that doesn't conflict with the console-built resources — consider a separate account or clearly-prefixed resource names, e.g., `tf-Developers` vs. `Developers`)
+1. Terraform - full IAM structure, tested against your existing AWS account (in a way that doesn't conflict with the console-built resources - consider a separate account or clearly-prefixed resource names, e.g., `tf-Developers` vs. `Developers`)
 2. Write the Terraform section of the comparison table while it's fresh
-3. CloudFormation — same structure
+3. CloudFormation - same structure
 4. Write that section of the table
-5. CDK — same structure, referencing the CloudFormation output via `cdk synth`
+5. CDK - same structure, referencing the CloudFormation output via `cdk synth`
 6. Finish the comparison table, write a short closing section: "which would I reach for, and when"
 
 ## Documentation deliverable for Level 2
