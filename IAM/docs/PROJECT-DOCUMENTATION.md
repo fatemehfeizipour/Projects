@@ -111,7 +111,7 @@ Known remaining gap: a Developer still can't retag an existing untagged resource
 
 ### 2.3 Access/permission model diagram
 
-![Access model diagram](../diagram/architecture-access-model.png)
+![Access model diagram](../diagrams/architecture-access-model.png)
 
 Groups map directly to the brief's team structure, plus one additional group for administrative access:
 
