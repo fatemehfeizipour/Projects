@@ -13,11 +13,11 @@ StartupCo launched quickly and, like many early-stage startups, deferred securit
 - No separation of permissions between Developers, Operations, Finance, and Data Analysts
 - No MFA, no password policy
 - Root credentials shared via team chat
-- Infrastructure: EC2, S3, RDS, CloudWatch, with separate dev/prod environments — all accessed the same way, by everyone
+- Infrastructure: EC2, S3, RDS, CloudWatch, with separate dev/prod environments - all accessed the same way, by everyone
 
 The risk: any single leaked credential (or disgruntled/careless employee) has unrestricted control over production infrastructure and customer fitness data. There is no audit trail distinguishing who did what, and no way to revoke one person's access without rotating credentials for the entire company.
 
-**Goal:** design and implement a least-privilege IAM structure, secure the root user, and document an architecture that reflects both the current infrastructure and security-hardened improvements — without over-engineering for a 10-person company.
+**Goal:** design and implement a least-privilege IAM structure, secure the root user, and document an architecture that reflects both the current infrastructure and security-hardened improvements - without over-engineering for a 10-person company.
 
 ---
 
@@ -30,7 +30,7 @@ Two environments (`VPC-Development`, `VPC-Production`), each with:
 - **Public subnet:** Application Load Balancer (ALB), NAT Gateway
 - **Private subnet:** EC2 (application server), RDS
 - **S3 Gateway Endpoint:** private-subnet resources reach S3 without traversing the NAT Gateway or public internet
-- **CloudWatch:** drawn *outside* both VPCs, since it is a regional/account-level service, not a VPC-scoped resource — EC2 and RDS in both environments push logs/metrics to it (dashed connections in the diagram, distinct from solid network-path arrows)
+- **CloudWatch:** drawn *outside* both VPCs, since it is a regional/account-level service, not a VPC-scoped resource - EC2 and RDS in both environments push logs/metrics to it (dashed connections in the diagram, distinct from solid network-path arrows)
 
 **Traffic flow (inbound):**
 ```
@@ -43,7 +43,7 @@ The ALB terminates the user's connection and opens a *new*, separate connection 
 EC2 (private subnet) → NAT Gateway (public subnet) → Internet Gateway → internet
 ```
 
-*[Insert final architecture diagram image here]*
+*[../diagrams/architecture-infrastructure.png]*
 
 ### 2.2 Dev/Prod separation — decision and trade-offs
 
@@ -65,7 +65,7 @@ The brief specifies "several development and production environments" without pr
 
 ### 2.3 Access/permission model diagram
 
-*[Insert access model diagram image here]*
+*[../diagrams/architecture-access-model.png]*
 
 Groups map directly to the brief's team structure, plus one additional group for administrative access:
 
@@ -79,14 +79,14 @@ Groups map directly to the brief's team structure, plus one additional group for
 
 ## 3. Securing the Root User
 
-Root user and root account are the same identity in AWS — a client-side terminology note clarified early in the project (the brief said "root account," which is informally used interchangeably with "root user").
+Root user and root account are the same identity in AWS - a client-side terminology note clarified early in the project (the brief said "root account," which is informally used interchangeably with "root user").
 
 Actions taken:
 
 1. **MFA enabled** on the root user via virtual MFA app (free, no hardware dependency for a small team)
-2. **Root access keys checked and confirmed absent** (or deleted, if present) — root should never have programmatic access keys, since they bypass MFA for API calls
+2. **Root access keys checked and confirmed absent** (or deleted, if present) - root should never have programmatic access keys, since they bypass MFA for API calls
 3. **Root password rotated** (previous one was compromised by being shared in team chat) and stored in a password manager, access restricted to 1–2 people (CTO + one Ops lead)
-4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) — every day-to-day action now goes through the role-based IAM structure below
+4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) - every day-to-day action now goes through the role-based IAM structure below
 5. **Root login detection/alerting configured** (detective control, complementing the preventive controls above):
 
 ```
