@@ -99,11 +99,11 @@ The brief specifies "several development and production environments" without pr
 ```
 
 Why each exists:
-- `AllowInstanceCreationAsDev` — permits launching a new instance, but only if it's tagged `environment=dev` as part of the same launch request. Launching untagged, or tagged `prod`, isn't covered.
-- `AllowRunInstancesSupportingResources` — `RunInstances` also checks permissions on the network interface, subnet, security group, AMI, volume, and key pair it references; these aren't environment-restricted since they're supporting resources, not the instance itself.
-- `AllowTaggingAsDevOnly` — separately allows `CreateTags`, scoped both to the `dev` tag value and, via `ec2:CreateAction`, to tags applied specifically during a `RunInstances` call — preventing this permission from being used to retag unrelated existing resources.
+- `AllowInstanceCreationAsDev` - permits launching a new instance, but only if it's tagged `environment=dev` as part of the same launch request. Launching untagged, or tagged `prod`, isn't covered.
+- `AllowRunInstancesSupportingResources` - `RunInstances` also checks permissions on the network interface, subnet, security group, AMI, volume, and key pair it references; these aren't environment-restricted since they're supporting resources, not the instance itself.
+- `AllowTaggingAsDevOnly` - separately allows `CreateTags`, scoped both to the `dev` tag value and, via `ec2:CreateAction`, to tags applied specifically during a `RunInstances` call - preventing this permission from being used to retag unrelated existing resources.
 
-Known remaining gap: a Developer still can't retag an existing untagged resource created by someone else outside of a `RunInstances` call — narrower and less common in practice, not addressed here.
+Known remaining gap: a Developer still can't retag an existing untagged resource created by someone else outside of a `RunInstances` call - narrower and less common in practice, not addressed here.
 
 **Recommendation to the client:** as the company scales past ~20-30 employees or handles more sensitive data volume, migrate to separate AWS accounts (via AWS Organizations) for stronger isolation.
 
@@ -111,7 +111,7 @@ Known remaining gap: a Developer still can't retag an existing untagged resource
 
 ### 2.3 Access/permission model diagram
 
-*[Insert access model diagram image here]*
+![Access model diagram](../diagram/architecture-access-model.png)
 
 Groups map directly to the brief's team structure, plus one additional group for administrative access:
 
@@ -130,9 +130,9 @@ Root user and root account are the same identity in AWS — a client-side termin
 Actions taken:
 
 1. **MFA enabled** on the root user via virtual MFA app (free, no hardware dependency for a small team)
-2. **Root access keys checked and confirmed absent** (or deleted, if present) — root should never have programmatic access keys, since they bypass MFA for API calls
+2. **Root access keys checked and confirmed absent** (or deleted, if present) - root should never have programmatic access keys, since they bypass MFA for API calls
 3. **Root password rotated** (previous one was compromised by being shared in team chat) and stored in a password manager, access restricted to 1–2 people (CTO + one Ops lead)
-4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) — every day-to-day action now goes through the role-based IAM structure below
+4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) - every day-to-day action now goes through the role-based IAM structure below
 5. **Root login detection/alerting configured** (detective control, complementing the preventive controls above):
 
 ```
@@ -152,12 +152,12 @@ Metric filter pattern used:
 ```
 
 **Verified working, not just configured.** Getting this pipeline to actually fire took several rounds of debugging, worth documenting since the failure modes are non-obvious:
-- Initially tried the console's "Create composite alarm" flow instead of a plain metric alarm — composite alarms use a different field (`alarmRule`) and rejected an empty rule with a validation error unrelated to the real issue.
-- The metric didn't appear in the alarm's "Select metric" browser at first — CloudWatch only lists metrics that have already emitted at least one data point, and no root login had occurred yet since the trail was created, so there was nothing to browse for. Creating the alarm directly from the metric filter's row (rather than the general metric browser) sidesteps this.
-- The metric filter's test box needs a **single-line (minified)** JSON log event — pasting the pretty-printed, multi-line version caused CloudWatch to treat every line as a separate malformed "event," none of which could match.
-- The alarm's threshold condition was initially set to **Lower/Equal (≤ 1)** instead of **Greater/Equal (≥ 1)** — an easy radio-button mixup that put the alarm in a permanent false "ALARM" state, since a count of 0 is always ≤ 1.
+- Initially tried the console's "Create composite alarm" flow instead of a plain metric alarm - composite alarms use a different field (`alarmRule`) and rejected an empty rule with a validation error unrelated to the real issue.
+- The metric didn't appear in the alarm's "Select metric" browser at first - CloudWatch only lists metrics that have already emitted at least one data point, and no root login had occurred yet since the trail was created, so there was nothing to browse for. Creating the alarm directly from the metric filter's row (rather than the general metric browser) sidesteps this.
+- The metric filter's test box needs a **single-line (minified)** JSON log event - pasting the pretty-printed, multi-line version caused CloudWatch to treat every line as a separate malformed "event," none of which could match.
+- The alarm's threshold condition was initially set to **Lower/Equal (≤ 1)** instead of **Greater/Equal (≥ 1)** - an easy radio-button mixup that put the alarm in a permanent false "ALARM" state, since a count of 0 is always ≤ 1.
 
-Once corrected, the alarm history confirms two independent successful cycles — real root logins on 2026-08-07 correctly transitioned the alarm `Insufficient data → In alarm`, with the SNS notification action executing successfully both times, then settling back to `Insufficient data` once the triggering data point aged out of the evaluation window (expected, since the metric only publishes a data point when a match occurs, not a continuous "0" baseline).
+Once corrected, the alarm history confirms two independent successful cycles - real root logins on 2026-08-07 correctly transitioned the alarm `Insufficient data → In alarm`, with the SNS notification action executing successfully both times, then settling back to `Insufficient data` once the triggering data point aged out of the evaluation window (expected, since the metric only publishes a data point when a match occurs, not a continuous "0" baseline).
 
 *[Insert screenshot: MFA device assigned confirmation]*
 *[Insert screenshot: Security credentials page — "Access keys: none"]*
@@ -170,17 +170,17 @@ Once corrected, the alarm history confirms two independent successful cycles —
 
 ### 4.1 Administrators group
 
-An IAM user with `AdministratorAccess` was created to replace day-to-day root usage during setup and ongoing administration. This account is MFA-enforced and reserved for IAM/security configuration tasks — not routine daily work, which is handled through the role-based groups below.
+An IAM user with `AdministratorAccess` was created to replace day-to-day root usage during setup and ongoing administration. This account is MFA-enforced and reserved for IAM/security configuration tasks - not routine daily work, which is handled through the role-based groups below.
 
 ### 4.2 Developers
 
 | Requirement (brief) | Implementation |
 |---|---|
 | EC2 management | `AmazonEC2FullAccess` |
-| S3 access for application files | Custom inline policy, scoped to the specific app-files bucket (both bucket and object ARNs), with read/write/delete — developers deploy files themselves in this setup |
+| S3 access for application files | Custom inline policy, scoped to the specific app-files bucket (both bucket and object ARNs), with read/write/delete - developers deploy files themselves in this setup |
 | CloudWatch logs viewing | Custom inline policy: `logs:GetLogEvents`, `logs:DescribeLogGroups`, `logs:DescribeLogStreams`, `logs:FilterLogEvents` (no write/delete) |
 
-**Why custom policies for S3 and Logs instead of AWS managed policies:** `AmazonS3ReadOnlyAccess` (the closest managed policy) grants access to *every* bucket in the account, including the bucket storing user data — not just application files. Scoping to a named bucket ARN enforces the boundary the brief implies but doesn't state explicitly.
+**Why custom policies for S3 and Logs instead of AWS managed policies:** `AmazonS3ReadOnlyAccess` (the closest managed policy) grants access to *every* bucket in the account, including the bucket storing user data - not just application files. Scoping to a named bucket ARN enforces the boundary the brief implies but doesn't state explicitly.
 
 **Why EC2 stayed as the broad managed policy:** the brief doesn't request per-environment restriction for Developers' EC2 access explicitly; a tag-conditioned version (limiting full access to `environment=dev` resources, read-only in `prod`) was designed and is documented as a planned enhancement (see §2.2 and Level 2 roadmap).
 
@@ -193,7 +193,7 @@ An IAM user with `AdministratorAccess` was created to replace day-to-day root us
 | Systems Manager access | `AmazonSSMFullAccess` |
 | RDS management | `AmazonRDSFullAccess` |
 
-**Note:** CloudWatch (`cloudwatch:*`) and CloudWatch Logs (`logs:*`) are distinct AWS action namespaces despite both falling under the "CloudWatch" product umbrella. An early draft of this policy mistakenly attached `CloudWatchEventsFullAccess` (a third, unrelated namespace for EventBridge-style scheduled rules) — caught and corrected during review. Worth verifying `CloudWatchFullAccess` includes `logs:*` actions if Operations needs full log management, not just metrics/alarms/dashboards.
+**Note:** CloudWatch (`cloudwatch:*`) and CloudWatch Logs (`logs:*`) are distinct AWS action namespaces despite both falling under the "CloudWatch" product umbrella. An early draft of this policy mistakenly attached `CloudWatchEventsFullAccess` (a third, unrelated namespace for EventBridge-style scheduled rules) - caught and corrected during review. Worth verifying `CloudWatchFullAccess` includes `logs:*` actions if Operations needs full log management, not just metrics/alarms/dashboards.
 
 ### 4.4 Finance
 
@@ -215,7 +215,7 @@ An IAM user with `AdministratorAccess` was created to replace day-to-day root us
 | Read-only S3 | `AmazonS3ReadOnlyAccess` (or custom bucket-scoped equivalent — see note) |
 | Read-only database access | `AmazonRDSReadOnlyAccess` |
 
-**Important distinction documented:** IAM-level RDS read-only access controls the RDS *API/metadata* (viewing instance configuration, status, snapshots) — it does **not** grant read access to rows/tables inside the database. That requires a separate database-level read-only credential (e.g., a Postgres/MySQL user with `SELECT`-only grants), which is outside IAM's scope and would need to be provisioned separately if Analysts need to query actual application data.
+**Important distinction documented:** IAM-level RDS read-only access controls the RDS *API/metadata* (viewing instance configuration, status, snapshots) - it does **not** grant read access to rows/tables inside the database. That requires a separate database-level read-only credential (e.g., a Postgres/MySQL user with `SELECT`-only grants), which is outside IAM's scope and would need to be provisioned separately if Analysts need to query actual application data.
 
 ### 4.6 Account-wide security settings
 
@@ -237,13 +237,13 @@ An IAM user with `AdministratorAccess` was created to replace day-to-day root us
 
 ## 5. Key Learnings
 
-- **The brief's summary section and detailed implementation section are not redundant** — the detailed section is the authoritative source, and several requirements (CloudWatch for Developers, RDS read-only for Analysts, the specific service list for Operations' "full access") only appear there.
+- **The brief's summary section and detailed implementation section are not redundant** - the detailed section is the authoritative source, and several requirements (CloudWatch for Developers, RDS read-only for Analysts, the specific service list for Operations' "full access") only appear there.
 - **CloudWatch is not one thing.** Core CloudWatch (`cloudwatch:*`), CloudWatch Logs (`logs:*`), and CloudWatch Events/EventBridge (`events:*`) are separate permission namespaces that are easy to conflate when browsing the managed policy list.
 - **IAM read-only ≠ database read-only.** IAM controls the AWS API surface; it has no visibility into what's inside a database or an S3 object. This distinction matters when a "read-only" requirement in a brief could mean either.
 - **AWS managed policies are broad by design.** They're a good starting point but often don't respect resource-level boundaries a business actually needs (e.g., one bucket vs. all buckets). Custom inline policies with explicit ARNs are the difference between "access to the service" and "access to *this* resource."
-- **Tag-based conditional access is powerful but fragile** — it depends entirely on consistent resource tagging, which is a process/discipline problem as much as a technical one.
-- **CloudWatch metrics are lazy, not eager.** A metric doesn't exist as a browsable entity until it's actually emitted a data point at least once — configuring a metric filter isn't enough on its own; something has to trigger a real match first, or the alarm-creation flow will show an empty metric list with no indication why.
-- **Alarm threshold direction is worth double-checking, not assuming.** A single flipped radio button (Lower/Equal vs. Greater/Equal) silently produces a permanently-triggered alarm rather than an error — worth verifying the alarm's own state description (e.g., "RootLoginCount <= 1 for 1 datapoint") matches the intended logic before trusting it.
+- **Tag-based conditional access is powerful but fragile** - it depends entirely on consistent resource tagging, which is a process/discipline problem as much as a technical one.
+- **CloudWatch metrics are lazy, not eager.** A metric doesn't exist as a browsable entity until it's actually emitted a data point at least once - configuring a metric filter isn't enough on its own; something has to trigger a real match first, or the alarm-creation flow will show an empty metric list with no indication why.
+- **Alarm threshold direction is worth double-checking, not assuming.** A single flipped radio button (Lower/Equal vs. Greater/Equal) silently produces a permanently-triggered alarm rather than an error - worth verifying the alarm's own state description (e.g., "RootLoginCount <= 1 for 1 datapoint") matches the intended logic before trusting it.
 
 ---
 
