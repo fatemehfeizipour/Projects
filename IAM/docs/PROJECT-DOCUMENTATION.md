@@ -125,7 +125,7 @@ Groups map directly to the brief's team structure, plus one additional group for
 
 ## 3. Securing the Root User
 
-Root user and root account are the same identity in AWS — a client-side terminology note clarified early in the project (the brief said "root account," which is informally used interchangeably with "root user").
+Root user and root account are the same identity in AWS - a client-side terminology note clarified early in the project (the brief said "root account," which is informally used interchangeably with "root user").
 
 Actions taken:
 
