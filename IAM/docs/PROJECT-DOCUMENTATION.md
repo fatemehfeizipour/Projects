@@ -159,10 +159,12 @@ Metric filter pattern used:
 
 Once corrected, the alarm history confirms two independent successful cycles - real root logins on 2026-08-07 correctly transitioned the alarm `Insufficient data → In alarm`, with the SNS notification action executing successfully both times, then settling back to `Insufficient data` once the triggering data point aged out of the evaluation window (expected, since the metric only publishes a data point when a match occurs, not a continuous "0" baseline).
 
-*[Insert screenshot: MFA device assigned confirmation]*
-*[Insert screenshot: Security credentials page — "Access keys: none"]*
-*[Insert screenshot: alarm History tab showing both Insufficient data → In alarm transitions with successful SNS action execution]*
-*[Insert screenshot: SNS alert email received]*
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned)
+![Security credentials page — "Access keys: none"](../screenshots/Security-credentials.png)
+![alarm History tab showing both Insufficient data → In alarm transitions with successful SNS action execution](../screenshots/alarm-history.png)
+![SNS alert email received](../screenshots/email1.png)
+![SNS alert email received](../screenshots/email2.png)
+![SNS alert email received](../screenshots/email3.png)
 
 ---
 
