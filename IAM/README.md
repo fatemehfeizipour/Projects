@@ -33,17 +33,17 @@ StartupCo launched fast and deferred security to hit their deadline:
 - No role separation, no MFA, no password policy
 - Credentials shared over team chat
 
-**The task:** design and implement IAM access controls for four distinct roles (Developers, Operations, Finance, Analysts), secure the root user, and produce architecture diagrams — following a real client brief with a high-level summary and a separate, more detailed implementation spec.
+**The task:** design and implement IAM access controls for four distinct roles (Developers, Operations, Finance, Analysts), secure the root user, and produce architecture diagrams - following a real client brief with a high-level summary and a separate, more detailed implementation spec.
 
 ## What I built
 
-- **Two-environment architecture** (dev/prod), each with a public-subnet ALB, private-subnet EC2 and RDS, NAT Gateway, and an S3 Gateway Endpoint — with CloudWatch modeled correctly as an account-level service, not a VPC resource
-- **Five IAM groups** (Developers, Operations, Finance, Analysts, Administrators) with least-privilege policies — a mix of scoped AWS managed policies and custom JSON where managed policies were too broad
+- **Two-environment architecture** (dev/prod), each with a public-subnet ALB, private-subnet EC2 and RDS, NAT Gateway, and an S3 Gateway Endpoint - with CloudWatch modeled correctly as an account-level service, not a VPC resource
+- **Five IAM groups** (Developers, Operations, Finance, Analysts, Administrators) with least-privilege policies - a mix of scoped AWS managed policies and custom JSON where managed policies were too broad
 - **Root user fully secured**: MFA, key removal, credential rotation, and a CloudTrail → CloudWatch → SNS pipeline that alerts on any root login
 - **Account-wide MFA enforcement** via a deny-unless-MFA policy, plus a strong password policy
 - **A documented dev/prod isolation decision** (separate VPCs + tag-based IAM conditions, evaluated against separate accounts and naming-convention-only approaches)
 
-Full reasoning, trade-offs, and screenshots are in [`./docs/01-PROJECT-DOCUMENTATION.md`](./docs/01-PROJECT-DOCUMENTATION.md).
+Full reasoning, trade-offs, and screenshots are in [`./docs/PROJECT-DOCUMENTATION.md`](./docs/PROJECT-DOCUMENTATION.md).
 
 ## A few decisions worth highlighting
 
@@ -58,8 +58,8 @@ Full reasoning, trade-offs, and screenshots are in [`./docs/01-PROJECT-DOCUMENTA
 
 ## Why this project
 
-Built to practice real IAM design decisions under a realistic, imperfect brief — including catching my own mistakes (wrong managed policies, ambiguous requirements) along the way, which mirrors what actually happens in a real engagement more than a clean step-by-step tutorial would.
+Built to practice real IAM design decisions under a realistic, imperfect brief - including catching my own mistakes (wrong managed policies, ambiguous requirements) along the way, which mirrors what actually happens in a real engagement more than a clean step-by-step tutorial would.
 
 ---
 
-*Feedback and suggestions welcome — open an issue or reach out.*
+*Feedback and suggestions welcome - open an issue or reach out.*
