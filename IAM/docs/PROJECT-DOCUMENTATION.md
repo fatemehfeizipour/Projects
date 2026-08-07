@@ -13,11 +13,11 @@ StartupCo launched quickly and, like many early-stage startups, deferred securit
 - No separation of permissions between Developers, Operations, Finance, and Data Analysts
 - No MFA, no password policy
 - Root credentials shared via team chat
-- Infrastructure: EC2, S3, RDS, CloudWatch, with separate dev/prod environments — all accessed the same way, by everyone
+- Infrastructure: EC2, S3, RDS, CloudWatch, with separate dev/prod environments - all accessed the same way, by everyone
 
 The risk: any single leaked credential (or disgruntled/careless employee) has unrestricted control over production infrastructure and customer fitness data. There is no audit trail distinguishing who did what, and no way to revoke one person's access without rotating credentials for the entire company.
 
-**Goal:** design and implement a least-privilege IAM structure, secure the root user, and document an architecture that reflects both the current infrastructure and security-hardened improvements — without over-engineering for a 10-person company.
+**Goal:** design and implement a least-privilege IAM structure, secure the root user, and document an architecture that reflects both the current infrastructure and security-hardened improvements - without over-engineering for a 10-person company.
 
 ---
 
@@ -57,7 +57,7 @@ The brief specifies "several development and production environments" without pr
 
 **Decision:** Separate VPCs within a single account, with IAM policy conditions on the `environment` resource tag (e.g., `aws:ResourceTag/environment = dev`). This gives real network isolation and a genuine (if tag-dependent) IAM boundary, appropriate for a 10-person company, without the operational overhead of full multi-account management.
 
-**Documented limitation:** the condition checks whether a resource is *already* tagged `dev` — so a brand-new, untagged EC2 instance fails that check by default. This creates a deadlock: a Developer can't tag a new instance to bring it into scope either, since tagging (`ec2:CreateTags`) is itself governed by the same `aws:ResourceTag` condition, and nothing exists yet for it to match against. As tested and demonstrated (see §4.2 below), the policy governs managing resources an admin has already tagged; self-service instance creation for Developers is scoped out of the tested baseline and covered as an enhancement here.
+**Documented limitation:** the condition checks whether a resource is *already* tagged `dev` - so a brand-new, untagged EC2 instance fails that check by default. This creates a deadlock: a Developer can't tag a new instance to bring it into scope either, since tagging (`ec2:CreateTags`) is itself governed by the same `aws:ResourceTag` condition, and nothing exists yet for it to match against. As tested and demonstrated (see §4.2 below), the policy governs managing resources an admin has already tagged; self-service instance creation for Developers is scoped out of the tested baseline and covered as an enhancement here.
 
 **Enhanced version — Developer self-service instance creation.** The fix uses `aws:RequestTag` instead of `aws:ResourceTag`, checking the tag being *applied at creation time* rather than one that already exists — this breaks the deadlock. Three additional statements are needed beyond the baseline policy:
 
