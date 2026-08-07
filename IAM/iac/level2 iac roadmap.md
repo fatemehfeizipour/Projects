@@ -41,8 +41,8 @@ iac/terraform/
 
 **Things worth documenting as you build:**
 - How Terraform state works and why `.tfstate` shouldn't be committed to the repo (add to `.gitignore`, mention remote state / S3 backend as the production-correct approach)
-- How to reference custom policy JSON — inline `jsonencode()` vs. separate `.json` files loaded via `file()` — and which you chose and why
-- Any place Terraform's plan/apply caught a mistake before it hit AWS (a good talking point — "IaC caught this before I even ran it" is a strong interview anecdote)
+- How to reference custom policy JSON - inline `jsonencode()` vs. separate `.json` files loaded via `file()` - and which you chose and why
+- Any place Terraform's plan/apply caught a mistake before it hit AWS (a good talking point - "IaC caught this before I even ran it" is a strong interview anecdote)
 
 ---
 
