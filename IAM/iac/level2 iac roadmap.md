@@ -58,9 +58,9 @@ iac/cloudformation/
 ```
 
 **Things worth documenting:**
-- How CloudFormation's declarative YAML compares to Terraform's HCL for the same resource (put a side-by-side snippet in your docs — e.g., one IAM group definition in both languages)
-- Stack rollback behavior — what happens if a deploy fails partway through, compared to Terraform's plan/apply model
-- Drift detection — a CloudFormation-specific concept worth knowing and mentioning
+- How CloudFormation's declarative YAML compares to Terraform's HCL for the same resource (put a side-by-side snippet in your docs - e.g., one IAM group definition in both languages)
+- Stack rollback behavior - what happens if a deploy fails partway through, compared to Terraform's plan/apply model
+- Drift detection - a CloudFormation-specific concept worth knowing and mentioning
 
 ---
 
@@ -78,11 +78,11 @@ iac/cdk/
 └── cdk.json
 ```
 
-**Language choice:** TypeScript or Python are the two most common — pick based on which is more relevant to your target job market, and note that choice explicitly in your docs.
+**Language choice:** TypeScript or Python are the two most common - pick based on which is more relevant to your target job market, and note that choice explicitly in your docs.
 
 **Things worth documenting:**
-- How CDK constructs (e.g., `iam.Group`, `iam.Policy`) compare to writing raw CloudFormation/Terraform — where the abstraction saves real effort vs. where it obscures what's actually being created
-- `cdk synth` output — show that it produces the same underlying CloudFormation template, closing the loop with section 2
+- How CDK constructs (e.g., `iam.Group`, `iam.Policy`) compare to writing raw CloudFormation/Terraform - where the abstraction saves real effort vs. where it obscures what's actually being created
+- `cdk synth` output - show that it produces the same underlying CloudFormation template, closing the loop with section 2
 
 ---
 
