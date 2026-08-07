@@ -17,7 +17,7 @@ Same IAM structure as Level 1, defined as code instead of console clicks:
 - `Require-MFA` policy, attached to all groups
 - *(Stretch)* VPC + subnets + NAT Gateway + ALB + S3 gateway endpoint, to also codify the architecture, not just IAM
 
-**Out of scope for Level 2 initially:** EC2/RDS instance provisioning itself (focus stays on IAM + optionally networking, since that's the core of the security exercise) — can be added as Level 3 if useful.
+**Out of scope for Level 2 initially:** EC2/RDS instance provisioning itself (focus stays on IAM + optionally networking, since that's the core of the security exercise) - can be added as Level 3 if useful.
 
 ---
 
