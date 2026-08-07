@@ -53,8 +53,8 @@ Full reasoning, trade-offs, and screenshots are in [`./docs/PROJECT-DOCUMENTATIO
 
 ## Status
 
-- ✅ Level 1 — AWS Console implementation (IAM, security, architecture)
-- 🚧 Level 2 — Infrastructure as Code (Terraform, CloudFormation, CDK) — in progress, documented separately in [`iac/`](./iac/)
+- ✅ Level 1 - AWS Console implementation (IAM, security, architecture)
+- 🚧 Level 2 - Infrastructure as Code (Terraform, CloudFormation, CDK) - in progress, documented separately in [`iac/`](./iac/)
 
 ## Why this project
 
