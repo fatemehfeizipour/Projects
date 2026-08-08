@@ -131,8 +131,6 @@ Actions taken:
 
 1. **MFA enabled** on the root user via virtual MFA app (free, no hardware dependency for a small team)
 ![MFA device assigned confirmation](../screenshots/MFA-device-assigned1)
-![MFA device assigned confirmation](../screenshots/MFA-device-assigned2)
-![MFA device assigned confirmation](../screenshots/MFA-device-assigned3)
 ![MFA device assigned confirmation](../screenshots/MFA-device-assigned4)
 3. **Root access keys checked and confirmed absent** (or deleted, if present) - root should never have programmatic access keys, since they bypass MFA for API calls
 4. **Root password rotated** (previous one was compromised by being shared in team chat) and stored in a password manager, access restricted to 1–2 people (CTO + one Ops lead)
@@ -245,13 +243,9 @@ An IAM user with `AdministratorAccess` was created to replace day-to-day root us
 - Expiration: 90 days
 - Password reuse prevention: last 5 passwords
 - Users may change their own password
+  ![strong password policy settings](../screenshots/password-policy.png)
 
 **MFA enforcement:** a standalone customer-managed policy (`Require-MFA`) attached to all five groups. It allows any authenticated user to manage their own MFA device, but denies nearly all other actions unless `aws:MultiFactorAuthPresent` is true. This converts "users should have MFA" from a policy expectation into a technically enforced requirement — a user without MFA configured can do nothing except set it up.
-
-*[Insert screenshot: IAM groups list]*
-*[Insert screenshot: one group's attached policies]*
-*[Insert screenshot: password policy settings]*
-*[Insert screenshot: MFA devices list]*
 
 ---
 
