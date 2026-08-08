@@ -170,7 +170,10 @@ Once corrected, the alarm history confirms two independent successful cycles - r
 
 ![Threshold-less than-1.png](..screenshots/Threshold-less-than-1.png)
 
-![MFA device assigned confirmation](../screenshots/MFA-device-assigned)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned1)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned2)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned3)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned4)
 ![Security credentials page - "Access keys: none"](../screenshots/Security-credentials.png)
 ![alarm History tab showing both Insufficient data → In alarm transitions with successful SNS action execution](../screenshots/alarm-history.png)
 ![SNS alert email received](../screenshots/email1.png)
