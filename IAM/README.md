@@ -50,6 +50,7 @@ Full reasoning, trade-offs, and screenshots are in [`./docs/PROJECT-DOCUMENTATIO
 - Caught and corrected a common IAM mix-up: **CloudWatch, CloudWatch Logs, and CloudWatch Events are three separate permission namespaces**, easy to conflate when browsing AWS managed policies.
 - Scoped Developers' S3 access to a **named bucket ARN** instead of the broader `AmazonS3ReadOnlyAccess`, since the client's S3 also stores user data that shouldn't be in developers' reach.
 - Documented the distinction between **IAM-level RDS read-only** (API/metadata access) and **database-level read-only** (actual row/table access) — the brief's "read-only database access" for Analysts needs both, and only one is achievable through IAM alone.
+- Debugged the root-login alarm pipeline through four distinct, non-obvious failure modes (wrong alarm type, an empty metric picker caused by CloudWatch only listing metrics with existing data, malformed multi-line test JSON, and an inverted threshold condition) before confirming it actually fires — documented in full in the project write-up, since the debugging process was as instructive as the final config.
 
 ## Status
 
