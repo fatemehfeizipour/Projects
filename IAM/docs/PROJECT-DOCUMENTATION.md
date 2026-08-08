@@ -153,14 +153,25 @@ Metric filter pattern used:
 
 **Verified working, not just configured.** Getting this pipeline to actually fire took several rounds of debugging, worth documenting since the failure modes are non-obvious:
 - Initially tried the console's "Create composite alarm" flow instead of a plain metric alarm - composite alarms use a different field (`alarmRule`) and rejected an empty rule with a validation error unrelated to the real issue.
+  
+  ![Create composite alarm](../screenshots/Composite-Alarms.png)
+  
 - The metric didn't appear in the alarm's "Select metric" browser at first - CloudWatch only lists metrics that have already emitted at least one data point, and no root login had occurred yet since the trail was created, so there was nothing to browse for. Creating the alarm directly from the metric filter's row (rather than the general metric browser) sidesteps this.
+
+![metric-isn't-appearing1.png](../screenshots/metric-isn't-appearing1.png)
+  
 - The metric filter's test box needs a **single-line (minified)** JSON log event - pasting the pretty-printed, multi-line version caused CloudWatch to treat every line as a separate malformed "event," none of which could match.
+
+![filter-pattern.png](../screenshots/filter-pattern.png)
+  
 - The alarm's threshold condition was initially set to **Lower/Equal (≤ 1)** instead of **Greater/Equal (≥ 1)** - an easy radio-button mixup that put the alarm in a permanent false "ALARM" state, since a count of 0 is always ≤ 1.
 
 Once corrected, the alarm history confirms two independent successful cycles - real root logins on 2026-08-07 correctly transitioned the alarm `Insufficient data → In alarm`, with the SNS notification action executing successfully both times, then settling back to `Insufficient data` once the triggering data point aged out of the evaluation window (expected, since the metric only publishes a data point when a match occurs, not a continuous "0" baseline).
 
+![Threshold-less than-1.png](..screenshots/Threshold-less-than-1.png)
+
 ![MFA device assigned confirmation](../screenshots/MFA-device-assigned)
-![Security credentials page — "Access keys: none"](../screenshots/Security-credentials.png)
+![Security credentials page - "Access keys: none"](../screenshots/Security-credentials.png)
 ![alarm History tab showing both Insufficient data → In alarm transitions with successful SNS action execution](../screenshots/alarm-history.png)
 ![SNS alert email received](../screenshots/email1.png)
 ![SNS alert email received](../screenshots/email2.png)
