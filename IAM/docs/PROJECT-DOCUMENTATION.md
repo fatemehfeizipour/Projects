@@ -130,10 +130,14 @@ Root user and root account are the same identity in AWS - a client-side terminol
 Actions taken:
 
 1. **MFA enabled** on the root user via virtual MFA app (free, no hardware dependency for a small team)
-2. **Root access keys checked and confirmed absent** (or deleted, if present) - root should never have programmatic access keys, since they bypass MFA for API calls
-3. **Root password rotated** (previous one was compromised by being shared in team chat) and stored in a password manager, access restricted to 1–2 people (CTO + one Ops lead)
-4. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) - every day-to-day action now goes through the role-based IAM structure below
-5. **Root login detection/alerting configured** (detective control, complementing the preventive controls above):
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned1)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned2)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned3)
+![MFA device assigned confirmation](../screenshots/MFA-device-assigned4)
+3. **Root access keys checked and confirmed absent** (or deleted, if present) - root should never have programmatic access keys, since they bypass MFA for API calls
+4. **Root password rotated** (previous one was compromised by being shared in team chat) and stored in a password manager, access restricted to 1–2 people (CTO + one Ops lead)
+5. **Root reserved for account-level actions only** (closing the account, changing support plan, certain billing/tax settings) - every day-to-day action now goes through the role-based IAM structure below
+6. **Root login detection/alerting configured** (detective control, complementing the preventive controls above):
 
 ```
 Root login event
@@ -181,6 +185,8 @@ Once corrected, the alarm history confirms two independent successful cycles - r
 ---
 
 ## 4. IAM Users, Groups, and Permissions
+
+![IAM-groups-list](../screenshots/IAM-groups-list.png)
 
 ### 4.1 Administrators group
 
