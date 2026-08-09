@@ -68,7 +68,7 @@ const projects: Project[] = [
     description:
       "Read-only CLI tool that scans an AWS account for common sources of wasted spend - unattached EBS volumes, idle EC2 instances (via CloudWatch CPU metrics), S3 buckets missing lifecycle policies, and unused Elastic IPs. Built with Python and boto3, with paginated API calls and fail-safe error handling per check.",
     stack: ["Python", "boto3", "CloudWatch", "EC2", "S3"],
-    link: "https://github.com/fatemehfeizipour/Projects/tree/main/Cost-auditor-script",
+    link: "https://github.com/fatemehfeizipour/aws-cost-auditor",
   },
   {
     title: "Secure VPC Redesign for an Invoicing App",
